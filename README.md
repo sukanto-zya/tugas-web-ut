@@ -24,7 +24,7 @@ Proyek_SITTA_STSI4209/
 3. Jalankan `login.html` menggunakan ekstensi **Live Server** (klik kanan file → Open with Live Server), atau buka `login.html` langsung di browser.
 4. Masuk dengan akun demo:
    - Email: `admin@ut.ac.id`
-   - Password: `sitta123`
+   - Password: `anto123`
 5. Coba menu Informasi Bahan Ajar, Tracking Pengiriman, serta Histori Transaksi.
 
 ## Fitur yang dibuat
