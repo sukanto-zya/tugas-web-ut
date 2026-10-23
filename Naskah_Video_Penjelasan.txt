@@ -1,0 +1,46 @@
+NASKAH VIDEO PENJELASAN TUGAS PRAKTIK 1 STSI4209
+Aplikasi Front-End SITTA Universitas Terbuka
+Estimasi durasi: 7–10 menit
+
+PEMBUKAAN (± 30 detik)
+“Assalamualaikum warahmatullahi wabarakatuh. Perkenalkan, saya [Nama], mahasiswa Program Studi Sistem Informasi. Pada video ini saya akan menjelaskan hasil pengerjaan Tugas Praktik 1 STSI4209, yaitu membuat aplikasi front-end SITTA Universitas Terbuka menggunakan HTML, CSS, dan JavaScript DOM. Aplikasi ini merupakan simulasi, sehingga data yang digunakan adalah data dummy dan belum terhubung dengan database.”
+
+1. STRUKTUR FOLDER (± 1 menit)
+“Tampilan proyek disusun menjadi empat halaman HTML, yaitu login.html, dashboard.html, tracking.html, dan stok.html. File CSS ditempatkan di folder css dengan nama style.css. Sementara itu, folder js berisi data.js untuk menyimpan data dummy dan app.js untuk menangani interaksi halaman. Pemisahan file ini membuat kode lebih rapi dan mudah dipelihara.”
+
+[Tunjukkan struktur folder di VS Code.]
+
+2. HALAMAN LOGIN (± 1 menit)
+“Halaman login menyediakan input email dan password. Saya menggunakan atribut HTML seperti type email dan required agar browser membantu memvalidasi input. JavaScript memeriksa kecocokan akun demo. Jika email atau password salah, sistem menampilkan alert dengan pesan ‘email/password yang anda masukkan salah’. Saya juga menambahkan modal Lupa Password dan Daftar untuk menunjukkan interaksi pop-up. Karena proyek ini hanya front-end, kedua fitur tersebut disimulasikan dan tidak mengirim data ke server.”
+
+[Demo login salah, buka modal Lupa Password dan Daftar, lalu login dengan akun demo.]
+Akun demo: sukanto@ut.ac.id
+Password: anto123
+
+3. DASHBOARD (± 1 menit)
+“Setelah login, pengguna masuk ke dashboard. Sapaan di bagian atas ditentukan oleh jam lokal perangkat menggunakan objek Date JavaScript. Jika jam menunjukkan pagi, siang, sore, atau malam, teks sapaan akan menyesuaikan. Dashboard juga menampilkan ringkasan jumlah jenis bahan ajar dan total stok yang dihitung dari dataBahanAjar, serta tautan cepat ke menu utama.”
+
+[Tunjukkan greeting, ringkasan stok, dan menu navigasi.]
+
+4. TRACKING PENGIRIMAN (± 1,5 menit)
+“Pada halaman Tracking Pengiriman, pengguna dapat memasukkan nomor Delivery Order. JavaScript mencari nomor tersebut di array dataPengiriman pada data.js. Jika ditemukan, halaman menampilkan nama mahasiswa, status, progress pengiriman, ekspedisi, tanggal kirim, nomor resi, jenis paket, alamat tujuan, dan total pembayaran. Jika nomor tidak ditemukan, sistem menampilkan pemberitahuan bahwa nomor DO tidak ditemukan. Saya menyediakan tiga nomor contoh agar fitur mudah diuji.”
+
+[Uji DO-UT-2026-001, lalu DO-UT-2026-002, lalu masukkan nomor yang salah.]
+“Bagian histori transaksi juga dibuat dinamis dari array yang sama. Tombol Lihat mengisi nomor DO dan menampilkan detail pengirimannya.”
+
+5. INFORMASI STOK BAHAN AJAR (± 1,5 menit)
+“Data stok bersumber dari konstanta dataBahanAjar pada data.js. Saat halaman dibuka, JavaScript membuat baris tabel berdasarkan data tersebut menggunakan DOM. Saya menambahkan fitur pencarian agar data dapat difilter berdasarkan kode, nama, kategori, atau lokasi. Tombol Tambah Stok membuka modal berisi formulir. Setelah formulir valid, data baru dimasukkan ke array lokal dan tabel dirender ulang. Kode bahan ajar yang sama ditolak untuk menghindari duplikasi. Status stok juga ditampilkan berdasarkan jumlah stok; stok 20 atau kurang diberi label stok rendah.”
+
+[Gunakan pencarian, tambahkan satu stok baru, dan tunjukkan tabel berubah.]
+
+6. HTML, CSS, DAN JAVASCRIPT DOM (± 1 menit)
+“HTML digunakan untuk menyusun struktur dan elemen semantik seperti header, main, nav, form, label, tabel, dan tombol. CSS eksternal di style.css mengatur warna, jarak, layout, tabel, modal, dan responsivitas pada layar yang lebih kecil. JavaScript pada app.js menangani event submit dan click, validasi, pembuatan elemen tabel, pencarian, progress bar, dan notifikasi. File data.js dipisahkan agar data dummy tidak bercampur dengan logika interaksi.”
+
+7. BATASAN DAN PENUTUP (± 45 detik)
+“Batasan proyek ini adalah belum memakai back-end dan database. Karena itu, data yang ditambahkan ke stok hanya ada selama halaman berjalan dan akan kembali ke data awal ketika halaman dimuat ulang. Akun login juga merupakan akun demo, bukan sistem autentikasi sungguhan. Secara keseluruhan, aplikasi ini menunjukkan penerapan HTML, CSS, JavaScript DOM, validasi form, tabel dinamis, serta interaksi UI sesuai ruang lingkup tugas. Demikian penjelasan dari saya. Terima kasih. Wassalamualaikum warahmatullahi wabarakatuh.”
+
+CATATAN:
+- Ganti [Nama] dengan nama sendiri.
+- Pastikan layar tidak menampilkan data pribadi.
+- Rekam layar VS Code dan browser secara bergantian.
+- Durasi maksimal sesuai instruksi tugas adalah 15 menit.

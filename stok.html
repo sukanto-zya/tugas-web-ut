@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informasi Stok Bahan Ajar SITTA</title><link rel="stylesheet" href="css/style.css"></head>
+<body><div class="app-layout">
+  <aside class="sidebar"><a class="side-brand" href="dashboard.html">
+    <span class="brand-mark small">UT</span><span><strong>SITTA</strong>
+      <small>Universitas Terbuka</small></span></a>
+      <p class="side-label">MENU UTAMA</p><nav class="side-nav" aria-label="Navigasi utama">
+        <a href="dashboard.html"><span>▦</span> Dashboard</a><a class="active" href="stok.html">
+          <span>▤</span> Informasi Bahan Ajar</a>
+        <a href="tracking.html"><span>⌁</span> Tracking Pengiriman</a><button type="button" class="nav-toggle" data-report-toggle>
+          <span>▧</span> Laporan <span class="nav-arrow">⌄</span></button>
+          <div class="sub-nav" id="reportSubnav"><a href="tracking.html">Monitoring Progress DO</a>
+            <a href="stok.html">Rekap Bahan Ajar</a></div><a href="tracking.html#histori">
+              <span>◷</span> Histori Transaksi</a></nav>
+              <div class="sidebar-bottom"><div class="user-avatar">
+                <img src="img/user.png" alt="User Icon" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div>
+                <div><strong>Admin UT-Bandung</strong><small>Administrator</small></div>
+                <a class="logout-link" href="login.html">↗</a>
+              </div>
+            </aside>
+  <main class="main-content"><header class="topbar">
+    <div><span class="eyebrow">SITTA / DATA BAHAN AJAR</span><h1>Informasi Stok Bahan Ajar</h1></div>
+    <a class="top-user" href="login.html"><span class="user-avatar">
+      <img src="img/user.png" alt="User Icon" style="width: 50%; height: 50%; object-fit: cover; border-radius: 50%;">
+    </span><span>Admin UT-Bandung</span></a>
+  </header>
+    <section class="page-intro"><h2>Kelola persediaan bahan ajar</h2>
+      <p>Data ditampilkan secara dinamis dari variabel <code>dataBahanAjar</code> pada file <code>js/data.js</code>.</p>
+    </section>
+    <section class="stats-grid compact-stats"><article class="stat-card"><div class="stat-icon purple">▤</div>
+      <p>Jenis bahan ajar</p><strong id="stockTypeCount">—</strong></article><article class="stat-card"><div class="stat-icon blue">▣</div><p>Total stok</p>
+        <strong id="stockTotalCount">—</strong></article>
+        <article class="stat-card"><div class="stat-icon orange">!</div>
+          <p>Stok perlu perhatian</p><strong id="lowStockCount">—</strong>
+          <small>Stok 20 atau kurang</small></article>
+        </section>
+    <section class="panel"><div class="panel-heading responsive-heading"><div>
+      <h3>Daftar Stok</h3>
+      <p class="muted">Gunakan pencarian atau tambahkan data stok baru.</p></div>
+      <button class="btn btn-primary" id="openStockForm" type="button">＋ Tambah Stok</button></div>
+      <div class="table-tools"><div class="search-inline"><span>⌕</span>
+        <input type="search" id="stockSearch" placeholder="Cari kode atau nama bahan ajar..." aria-label="Cari stok bahan ajar"></div>
+        <span class="muted" id="stockResultCount"></span></div>
+      <div class="table-wrap"><table><thead><tr><th>Kode Bahan Ajar</th>
+        <th>Nama Bahan Ajar</th>
+        <th>Kategori</th>
+        <th>Stok</th>
+        <th>Lokasi</th>
+        <th>Kondisi</th>
+      </tr>
+    </thead>
+    <tbody id="stockTable"></tbody></table></div>
+      <div id="stockEmpty" class="empty-small hidden">Data tidak ditemukan.</div>
+    </section>
+    <dialog class="modal" id="stockModal"><form method="dialog" class="modal-close-form">
+      <button class="close-button" aria-label="Tutup">×</button></form><p class="eyebrow">DATA PERSEDIAAN</p>
+      <h2>Tambah Stok Bahan Ajar</h2><p class="muted">Data baru ditambahkan ke tabel melalui JavaScript DOM. Data tidak disimpan ke server.</p>
+      <form id="stockForm"><label for="stockCode">Kode bahan ajar</label>
+        <input id="stockCode" required placeholder="Contoh: BA-105">
+        <label for="stockName">Nama bahan ajar</label><input id="stockName" required placeholder="Nama modul/buku">
+        <label for="stockCategory">Kategori</label><select id="stockCategory" required>
+          <option value="">Pilih kategori</option>
+          <option>Modul</option><option>Buku</option>
+          <option>Praktikum</option><option>Lainnya</option>
+        </select><label for="stockQty">Jumlah stok</label>
+        <input id="stockQty" type="number" min="0" required placeholder="0">
+        <label for="stockLocation">Lokasi penyimpanan</label>
+        <input id="stockLocation" required placeholder="Contoh: Rak A-01">
+        <button class="btn btn-primary full" type="submit">Simpan ke Tabel</button>
+      </form>
+    </dialog>
+
+    <!-- Modal Detail Bahan Ajar -->
+<dialog class="modal" id="detailStokModal">
+  <form method="dialog" class="modal-close-form">
+    <button class="close-button" aria-label="Tutup" onclick="tutupDetailModal()">×</button>
+  </form>
+  
+  <!-- ELEMEN GAMBAR COVER BUKU -->
+  <div style="text-align: center; margin-bottom: 1rem;">
+    <img id="detailGambarBuku" src="" alt="Cover Buku" style="width: 100px; height: 140px; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+  </div>
+
+  <p class="eyebrow">DETAIL BAHAN AJAR</p>
+  <h2 id="detailNamaBahan">Informasi Bahan Ajar</h2>
+  <div class="muted" style="margin-bottom: 1rem;">Berikut adalah detail lengkap persediaan bahan ajar.</div>
+  
+  <div style="display: grid; gap: 0.5rem; margin-bottom: 1.5rem;">
+    <p><strong>Kode Bahan Ajar:</strong> <span id="detailKode">—</span></p>
+    <p><strong>Kategori:</strong> <span id="detailKategori">—</span></p>
+    <p><strong>Jumlah Stok:</strong> <span id="detailStok">—</span> eksemplar</p>
+    <p><strong>Lokasi Penyimpanan:</strong> <span id="detailLokasi">—</span></p>
+    <p><strong>Kondisi:</strong> <span id="detailKondisi">—</span></p>
+  </div>
+
+  <button class="btn btn-primary full" type="button" onclick="tutupDetailModal()">Tutup</button>
+</dialog>
+
+<!-- Modal Detail Bahan Ajar -->
+<dialog class="modal" id="detailStokModal">
+  <form method="dialog" class="modal-close-form">
+    <button class="close-button" aria-label="Tutup" onclick="tutupDetailModal()">×</button>
+  </form>
+  
+  <!-- Gambar Cover Buku -->
+  <div style="text-align: center; margin-bottom: 1rem;">
+    <img id="detailGambarBuku" src="" alt="Cover Bahan Ajar" style="width: 100px; height: 140px; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+  </div>
+
+  <p class="eyebrow">DETAIL BAHAN AJAR</p>
+  <h2 id="detailNamaBahan">Informasi Bahan Ajar</h2>
+  <div class="muted" style="margin-bottom: 1rem;">Berikut adalah detail lengkap persediaan bahan ajar.</div>
+  
+  <div style="display: grid; gap: 0.5rem; margin-bottom: 1.5rem;">
+    <p><strong>Kode Bahan Ajar:</strong> <span id="detailKode">—</span></p>
+    <p><strong>Kategori:</strong> <span id="detailKategori">—</span></p>
+    <p><strong>Jumlah Stok:</strong> <span id="detailStok">—</span> eksemplar</p>
+    <p><strong>Lokasi Penyimpanan:</strong> <span id="detailLokasi">—</span></p>
+    <p><strong>Kondisi:</strong> <span id="detailKondisi">—</span></p>
+  </div>
+
+  <button class="btn btn-primary full" type="button" onclick="tutupDetailModal()">Tutup</button>
+</dialog>
+
+
+    <footer class="footer">© 2026 SITTA UT-Daerah · Data stok adalah data dummy untuk praktik</footer>
+  </main></div><div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

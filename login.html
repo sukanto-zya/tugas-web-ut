@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login SITTA UT</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-page">
+  <main class="login-shell">
+    <section class="login-brand">
+      <div class="brand-mark"> UT </div>
+      <p class="eyebrow">UNIVERSITAS TERBUKA</p>
+      <h1>SITBA</h1>
+      <p class="brand-copy">Sistem Informasi Transaksi Bahan Ajar</p>
+      <div class="brand-decoration" aria-hidden="true">✦</div>
+    </section>
+    
+     
+    <section class="login-card">
+      <p class="eyebrow">SELAMAT DATANG</p>
+      <h2>Masuk ke akun Anda</h2>
+      <p class="muted">Gunakan akun demo untuk menjelajahi aplikasi.</p>
+      <form id="loginForm">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="nama@ut.ac.id" autocomplete="username" required>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Masukkan password" autocomplete="current-password" required>
+        <button class="btn btn-primary full" type="submit">Login <span aria-hidden="true">→</span></button>
+      </form>
+      <div class="login-links">
+        <button class="text-button" type="button" data-modal="forgotModal">Lupa Password?</button>
+        <span>Belum punya akun? <button class="text-button" type="button" data-modal="registerModal">Daftar</button></span>
+      </div>
+      <div class="demo-hint"><strong>Akun demo</strong><br>Email: admin@ut.ac.id<br>Password: anto123</div>
+    </section>
+  </main>
+
+  <dialog class="modal" id="forgotModal">
+    <form method="dialog" class="modal-close-form"><button class="close-button" aria-label="Tutup">×</button></form>
+    <p class="eyebrow">BANTUAN AKUN</p><h2>Lupa Password</h2>
+    <p class="muted">Masukkan email yang terdaftar. Untuk tugas praktik ini, proses pemulihan disimulasikan.</p>
+    <form id="forgotForm">
+      <label for="forgotEmail">Email</label><input id="forgotEmail" type="email" required placeholder="nama@ut.ac.id">
+      <button class="btn btn-primary full" type="submit">Kirim Instruksi</button>
+    </form>
+  </dialog>
+  <dialog class="modal" id="registerModal">
+    <form method="dialog" class="modal-close-form"><button class="close-button" aria-label="Tutup">×</button></form>
+    <p class="eyebrow">AKUN BARU</p><h2>Daftar Akun</h2>
+    <p class="muted">Formulir pendaftaran contoh untuk simulasi front-end.</p>
+    <form id="registerForm">
+      <label for="registerName">Nama lengkap</label><input id="registerName" required placeholder="Nama lengkap">
+      <label for="registerEmail">Email</label><input id="registerEmail" type="email" required placeholder="nama@ut.ac.id">
+      <label for="registerPassword">Password</label><input id="registerPassword" type="password" minlength="6" required placeholder="Minimal 6 karakter">
+      <button class="btn btn-primary full" type="submit">Buat Akun Demo</button>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

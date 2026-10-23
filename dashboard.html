@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard SITTA UT</title><link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <a class="side-brand" href="dashboard.html">
+        <span class="brand-mark small">
+          <div class="logo"> 
+          <img src="img/logo-ut.png" alt="Logo Universitas Terbuka" style="width: 40px; height: auto;">
+        </div>
+        </span><span><strong>SITTA</strong>
+        <small>Universitas Terbuka</small></span></a>
+      <p class="side-label">MENU UTAMA</p>
+      <nav class="side-nav" aria-label="Navigasi utama">
+        <a class="active" href="dashboard.html"><span>▦</span> Dashboard</a>
+        <a href="stok.html"><span>▤</span> Informasi Bahan Ajar</a>
+        <a href="tracking.html"><span>⌁</span> Tracking Pengiriman</a>
+        <button type="button" class="nav-toggle" data-report-toggle><span>▧</span> Laporan <span class="nav-arrow">⌄</span></button>
+        <div class="sub-nav" id="reportSubnav"><a href="tracking.html">Monitoring Progress DO</a><a href="stok.html">Rekap Bahan Ajar</a></div>
+        <a href="tracking.html#histori"><span>◷</span> Histori Transaksi</a>
+      </nav>
+      <div class="sidebar-bottom"><div class="user-avatar">
+        <img src="img/user.png" alt="User Icon" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+      </div><div><strong>Admin UT-Bandung</strong><small>Administrator</small></div><a class="logout-link" href="login.html" title="Keluar">↗</a></div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><div><span class="eyebrow">SITTBA / DASHBOARD</span><h1>DASHBOARD</h1></div><a class="top-user" href="login.html"><span class="user-avatar">
+        <img src="img/user.png" alt="User Icon" style="width: 50%; height: 50%; object-fit: cover; border-radius: 50%;">
+      </span><span>Admin UT-Bandung</span></a></header>
+      <section class="welcome-panel">
+        <div><p class="eyebrow light">PORTAL PENGELOLAAN BAHAN AJAR</p><h2 id="greeting">Selamat datang!</h2><p>Kelola stok, pantau pengiriman, dan lihat ringkasan transaksi bahan ajar dalam satu tempat.</p><a href="stok.html" class="btn btn-light">Lihat Informasi Bahan Ajar <span>→</span></a></div>
+        <div class="welcome-art" aria-hidden="true"><div class="art-book">▤</div><div class="art-circle"></div></div>
+      </section>
+      <section class="stats-grid">
+        <article class="stat-card"><div class="stat-icon purple">▤</div><p>Total jenis bahan ajar</p><strong id="statTypes">—</strong><small>Jenis dalam data demo</small></article>
+        <article class="stat-card"><div class="stat-icon blue">▣</div><p>Total stok tersedia</p><strong id="statStock">—</strong><small>Eksemplar</small></article>
+        <article class="stat-card"><div class="stat-icon orange">⌁</div><p>Pengiriman diproses</p><strong>2</strong><small>Data simulasi</small></article>
+        <article class="stat-card"><div class="stat-icon green">✓</div><p>Pengiriman selesai</p><strong>1</strong><small>Data simulasi</small></article>
+      </section>
+      <section class="content-grid">
+        <article class="panel"><div class="panel-heading"><div><h3>Akses cepat</h3><p class="muted">Pilih menu untuk melanjutkan pekerjaan.</p></div></div><div class="quick-links">
+          <a href="stok.html" class="quick-link"><span class="quick-icon purple">▤</span><span><strong>Informasi Bahan Ajar</strong><small>Lihat dan tambah stok</small></span><b>→</b></a>
+          <a href="tracking.html" class="quick-link"><span class="quick-icon blue">⌁</span><span><strong>Tracking Pengiriman</strong><small>Cari status berdasarkan nomor DO</small></span><b>→</b></a>
+          <a href="tracking.html#histori" class="quick-link"><span class="quick-icon orange">◷</span><span><strong>Histori Transaksi</strong><small>Lihat contoh transaksi</small></span><b>→</b></a>
+        </div></article>
+        <article class="panel"><div class="panel-heading"><div>
+          <h3>Aktivitas terbaru</h3><p class="muted">Ringkasan data simulasi</p></div>
+          <span class="status-pill">Demo</span></div>
+          <div class="activity-list"><div class="activity-item"><span class="activity-dot green-dot"></span>
+            <div><strong>2023001234</strong><p>Pengiriman telah diterima mahasiswa.</p><small>12 Oktober 2026</small></div>
+            </div>
+            <div class="activity-item"><span class="activity-dot blue-dot"></span><div>
+              <strong>2023005678</strong><p>Paket sedang dalam perjalanan.</p><small>11 Oktober 2026</small>
+            </div></div><div class="activity-item"><span class="activity-dot orange-dot"></span>
+              <div><strong>2023005576</strong><p>Paket sedang disiapkan.</p><small>10 Oktober 2026</small></div>
+            </div>
+          </div>
+        </article>
+      </section>
+      <footer class="footer">© 2026 SITTA UT-Bandung · Tugas praktik HTML, CSS, dan JavaScript DOM</footer>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body></html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracking Pengiriman SITTA</title><link rel="stylesheet" href="css/style.css"></head>
+  <body><div class="app-layout">
+  <aside class="sidebar"><a class="side-brand" href="dashboard.html">
+    <span class="brand-mark small">UT</span><span><strong>SITTA</strong><small>Universitas Terbuka</small></span></a>
+    <p class="side-label">MENU UTAMA</p><nav class="side-nav" aria-label="Navigasi utama">
+      <a href="dashboard.html"><span>▦</span> Dashboard</a>
+      <a href="stok.html"><span>▤</span> Informasi Bahan Ajar</a>
+      <a class="active" href="tracking.html"><span>⌁</span> Tracking Pengiriman</a>
+      <button type="button" class="nav-toggle" data-report-toggle><span>▧</span> Laporan <span class="nav-arrow">⌄</span>
+      </button><div class="sub-nav" id="reportSubnav"><a href="tracking.html">Monitoring Progress DO</a>
+        <a href="stok.html">Rekap Bahan Ajar</a></div><a href="#histori"><span>◷</span> Histori Transaksi</a></nav><
+        <div class="sidebar-bottom"><div class="user-avatar">
+          <img src="img/user.png" alt="User Icon" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div><div>
+          <strong>Admin UT-Bandung</strong>
+          <small>Administrator</small></div><a class="logout-link" href="login.html">↗</a></div>
+        </aside>
+  <main class="main-content"><header class="topbar"><div><span class="eyebrow">SITTA / PENGIRIMAN</span>
+    <h1>Tracking Pengiriman</h1></div>
+    <a class="top-user" href="login.html"><span class="user-avatar">
+      <img src="img/user.png" alt="User Icon" style="width: 50%; height: 50%; object-fit: cover; border-radius: 50%;">
+    </span><span>Admin UT-Bandung</span></a>
+</header>
+    <section class="page-intro">
+      <h2>Pantau perjalanan bahan ajar</h2>
+      <p>Masukkan nomor Delivery Order (DO) untuk melihat status pengiriman.</p>
+    </section>
+    <section class="panel search-panel">
+      <form id="trackingForm" class="search-form">
+        <div class="search-field"><label for="doNumber">Nomor Delivery Order</label>
+          <input id="doNumber" name="doNumber" placeholder="Contoh: 2023005678" required><small>Coba salah satu nomor DO pada data demo di bawah.</small>
+        </div><button class="btn btn-primary" type="submit">⌕ Cari Pengiriman</button>
+      </form>
+      <div class="example-do">Nomor demo: 
+        <button type="button" class="chip" data-do="2023005678">2023005678</button>
+        
+      </div>
+    </section>
+    <div id="trackingResult" aria-live="polite"><section class="empty-state"><div class="empty-illustration">⌁</div>
+      <h3>Belum ada pencarian</h3>
+      <p>Hasil tracking akan ditampilkan di sini setelah Anda memasukkan nomor DO.</p>
+    </section>
+    </div>
+    <section class="panel" id="histori"><div class="panel-heading"><div>
+      <h3>Histori Transaksi Bahan Ajar</h3>
+      <p class="muted">Contoh transaksi yang tersedia pada data dummy.</p>
+    </div>
+    <span class="status-pill">3 transaksi</span>
+    </div>
+    <div class="table-wrap">
+      <table><thead>
+        <tr><th>Nomor DO</th>
+        <th>Nama Mahasiswa</th>
+        <th>Tanggal Kirim</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="historyTable"></tbody>
+  </table>
+</div>
+</section>
+    <footer class="footer">© 2026 SITTA UT-Bandung · Data pengiriman hanya simulasi</footer>
+  </main></div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  </body> 
+</body>
+</html>
