@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracking Pengiriman SITBA</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app" class="app-layout">
+    
+    <!-- Logo pojok kiri atas -->
+    <aside class="sidebar">
+      <a class="side-brand" href="dashboard.html">
+          <span class="brand-mark small">
+        <div class="logo"> 
+          <img src="img/logo-ut.png" alt="Logo Universitas Terbuka" style="width: 40px; height: auto;">
+        </div>
+      </span>
+      <span><strong>SITBA</strong><small>Universitas Terbuka</small></span>
+      </a>
+      <p class="side-label">MENU UTAMA</p>
+      <nav class="side-nav" aria-label="Navigasi utama">
+        <a href="dashboard.html"><span>▦</span> Dashboard</a>
+        <a href="stok.html"><span>▤</span> Informasi Bahan Ajar</a>
+        <a class="active" href="tracking.html"><span>⌁</span> Tracking Pengiriman</a>
+        <button type="button" class="nav-toggle"><span>▧</span> Laporan <span class="nav-arrow">⌄</span></button>
+        <div class="sub-nav" id="reportSubnav">
+          <a href="tracking.html">Monitoring Progress DO</a>
+          <a href="stok.html">Rekap Bahan Ajar</a>
+        </div>
+        <a href="#histori"><span>◷</span> Histori Transaksi</a>
+      </nav>
+      <div class="sidebar-bottom">
+      <div class="user-avatar">
+        <img src="img/user.png" alt="User Icon" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+      </div>
+      <div><strong>Admin UT-Bandung</strong><small>Administrator</small></div>
+      <a class="logout-link" href="login.html">↗</a>
+    </div>
+    </aside>
+
+    <!-- Main Content User Login -->
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <span class="eyebrow">SITBA / PENGIRIMAN</span>
+          <h1>Tracking Pengiriman</h1>
+           <p>Masukkan nomor Delivery Order (DO) untuk melihat status pengiriman.</p>
+        </div>
+        <a class="top-user" href="login.html">
+          <span class="user-avatar">
+            <img src="img/user.png" alt="User Icon" style="width: 50%; height: 50%; object-fit: cover; border-radius: 50%;">
+          </span>
+          <span>Admin UT-Bandung</span>
+        </a>
+      </header>
+
+    
+
+      <!-- Panel Pencarian DO -->
+      <section class="panel search-panel">
+        <form id="trackingForm" class="search-form" @submit.prevent="searchDO">
+          <div class="search-field">
+            <label for="doNumber">Nomor Delivery Order</label>
+            <input id="doNumber" v-model="searchQuery" placeholder="Contoh: DO2026-001" required>
+            <small>Coba masukkan nomor DO yang tertera pada tabel histori di bawah.</small>
+          </div>
+          <button class="btn btn-primary" type="submit">⌕ Cari Pengiriman</button>
+        </form>
+      </section>
+
+      <!-- Hasil Pencarian DO -->
+      <div id="trackingResult" aria-live="polite">
+        <section v-if="searchResult" class="panel result-panel" style="padding: 1.5rem; border-left: 4px solid #0369a1; margin-bottom: 2rem;">
+          <h3>Hasil Pelacakan: {{ searchResult.noDo }}</h3>
+          <p style="margin: 0.5rem 0;"><strong>Nama Mahasiswa:</strong> {{ searchResult.nama }} (NIM: {{ searchResult.nim }})</p>
+          <p style="margin: 0.5rem 0;"><strong>Paket Bahan Ajar:</strong> {{ searchResult.paket }}</p>
+          <p style="margin: 0.5rem 0;"><strong>Ekspedisi:</strong> {{ searchResult.ekspedisi }}</p>
+          <p style="margin: 0.5rem 0;"><strong>Tanggal Kirim:</strong> {{ searchResult.tanggalKirim }}</p>
+          <p style="margin: 0.5rem 0;"><strong>Total Harga:</strong> Rp {{ formatRupiah(searchResult.totalHarga) }}</p>
+          <p style="margin: 0.5rem 0;">
+            <strong>Status:</strong> 
+            <span style="padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.85rem; background: #e0f2fe; color: #0369a1; font-weight: bold;">
+              {{ searchResult.status }}
+            </span>
+          </p>
+        </section>
+
+        <section v-else-if="hasSearched && !searchResult" class="empty-state" style="text-align: center; padding: 2rem; background: #fff; border-radius: 8px; margin-bottom: 2rem;">
+          <div class="empty-illustration" style="font-size: 2rem; color: #ef4444;">⚠️</div>
+          <h3>Data Tidak Ditemukan</h3>
+          <p>Nomor Delivery Order tidak terdaftar di sistem transaksi dummy.</p>
+        </section>
+
+        <section v-else class="empty-state">
+          <div class="empty-illustration">⌁</div>
+          <h3>Belum ada pencarian</h3>
+          <p>Hasil tracking akan ditampilkan di sini setelah Anda memasukkan nomor DO.</p>
+        </section>
+      </div>
+
+      <!-- Modal Form Input Delivery Order Baru -->
+    <div class="modal" v-if="openModal" style="display: block; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; width: 90%; max-width: 600px;">
+      
+      <!-- Tombol Close (X) di Pojok Kanan Atas -->
+      <button type="button" @click="openModal = false" aria-label="Tutup" style="position: absolute; top: 1rem; right: 1rem; background: transparent; border: none; font-size: 1.5rem; font-weight: bold; cursor: pointer; color: #666; line-height: 1;">×</button>
+
+      <p class="eyebrow">SITBA / TRANSAKSI</p>
+      <h2>Formulir Input Delivery Order Baru</h2>
+      <p class="muted">Masukkan data pengiriman bahan ajar mahasiswa.</p>
+      
+      <!-- PERBAIKAN: Tag form terbuka dengan benar tanpa penutup dini -->
+      <form @submit.prevent="addTransaction" style="display: grid; gap: 1rem; margin-top: 1rem;">
+        
+        <div style="display: flex; flex-direction: column; gap: 0.3rem;">
+          <label style="font-weight: bold;">Nomor DO (Otomatis)</label>
+          <input type="text" :value="nextDoNumber" disabled style="background: #f3f4f6; color: #6b7280; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.3rem;">
+          <label for="newNim" style="font-weight: bold;">NIM Mahasiswa</label>
+          <input id="newNim" v-model="form.nim" type="text" placeholder="Masukkan NIM (contoh: 04321987)" required style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.3rem;">
+          <label for="newNama" style="font-weight: bold;">Nama Mahasiswa</label>
+          <input id="newNama" v-model="form.nama" type="text" placeholder="Masukkan nama lengkap" required style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.3rem;">
+          <label for="newEkspedisi" style="font-weight: bold;">Ekspedisi</label>
+          <select id="newEkspedisi" v-model="form.ekspedisi" required style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
+            <option value="" disabled>-- Pilih Ekspedisi --</option>
+            <option v-for="eks in ekspedisiOptions" :key="eks" :value="eks">{{ eks }}</option>
+          </select>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.3rem;">
+          <label for="newPaket" style="font-weight: bold;">Paket Bahan Ajar (Tekan Ctrl / Cmd untuk pilih banyak)</label>
+          <select id="newPaket" v-model="form.selectedPaketKode" multiple required style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; min-height: 90px;">
+            <option v-for="p in paketList" :key="p.kode" :value="p.kode">
+              [{{ p.kode }}] - {{ p.nama }} (Rp {{ formatRupiah(p.harga) }})
+            </option>
+          </select>
+        </div>
+
+        <!-- Detail Isi Paket -->
+        <div v-if="selectedPaketDetail" style="padding: 0.8rem; background: #f9fafb; border: 1px dashed #0369a1; border-radius: 4px; font-size: 0.9rem;">
+          <h4 style="margin-top: 0; color: #0369a1;">Detail Komponen Paket:</h4>
+          <p style="margin: 0.2rem 0;"><strong>Isi Modul:</strong> {{ selectedPaketDetail.deskripsi }}</p>
+          <p style="margin: 0.2rem 0;"><strong>Harga Paket:</strong> Rp {{ formatRupiah(selectedPaketDetail.harga) }}</p>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+          <button class="btn btn-primary" type="submit" style="background: #16a34a; border-color: #16a34a; flex: 1;">💾 Simpan Transaksi</button>
+          <button class="btn btn-secondary" type="button" @click="openModal = false" style="flex: 0.3;">Batal</button>
+        </div>
+
+      </form> <!-- Penutup tag form yang benar berada di sini -->
+    </div>
+    
+    <!-- Backdrop/Overlay gelap di belakang modal -->
+    <div v-if="openModal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+
+      <!-- Panel Histori Transaksi -->
+      <section class="panel" id="histori">
+        <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+  <div>
+    <h3>Histori Transaksi Bahan Ajar</h3>
+    <p class="muted">Daftar transaksi Delivery Order yang terekam pada aplikasi.</p>
+  </div>
+  <!-- Tombol untuk memicu pop-up modal -->
+  <button class="btn btn-primary" @click="openModal = true" type="button">＋ Tambah Delivery Order Baru</button>
+</div>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nomor DO</th>
+                <th>Nama Mahasiswa</th>
+                <th>Tanggal Kirim</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <!-- Cari bagian tabel histori transaksi di tracking.html -->
+            <tbody>
+              <tr v-for="(item, index) in trackingList" :key="index">
+                <td><strong>{{ item.noDo }}</strong></td>
+                <td>{{ item.nama }} (NIM: {{ item.nim }})</td>
+                <td>{{ item.tanggalKirim }}</td>
+                <td>
+                  <span style="padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.85rem; background: #e0f2fe; color: #0369a1; font-weight: bold;">
+                    {{ item.status }}
+                  </span>
+                </td>
+                <td>
+                  <div style="display: flex; gap: 0.3rem;">
+                    <!-- Tombol Detail yang sudah ada -->
+                    <button class="btn btn-secondary" type="button" @click="viewDetail(item.noDo)" style="padding: 0.2rem 0.5rem; font-size: 0.8rem;">Detail</button>
+                    
+                    <!-- Tombol Edit Baru -->
+                    <button class="btn btn-warning" type="button" @click="editTransaction(item.noDo)" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; background: #f59e0b; color: white; border: none; border-radius: 4px; cursor: pointer;">Edit</button>
+                  </div>
+                </td>
+              </tr>
+              <tr v-if="trackingList.length === 0">
+                <td colspan="5" style="text-align: center; padding: 2rem;" class="muted">Belum ada histori transaksi.</td>
+              </tr>
+          </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">© 2026 SITBA UT-Bandung · Tugas Praktik Web Sederhana</footer>
+    </main>
+  </div>
+
+  <!-- SCRIPT APLIKASI VUE -->
+  <script src="js/data.js"></script>
+  <script src="js/tracking-app.js"></script>
+  <script src="js/app.js"></script>
+ 
+
+</body>
+</html>
